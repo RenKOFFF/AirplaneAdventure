@@ -138,7 +138,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -162,6 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ab0a52641754abb9688f35024ed72d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tapForce: 1000
-  _gravity: 800
-  _rectTransform: {fileID: 0}
+  _obstacles: {fileID: 0}
+  _tapForce: 600
+  _gravity: 2900
+  _rectTransform: {fileID: 6458073026881948420}

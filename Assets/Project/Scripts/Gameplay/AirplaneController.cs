@@ -1,9 +1,14 @@
+using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace AirplaneAdventure.Gameplay
 {
     public class AirplaneController : MonoBehaviour
     {
+        [SerializeField] private GameObject _obstacles;
+
         [SerializeField] private float _tapForce = 400f;
         [SerializeField] private float _gravity = 800f;
         [SerializeField] private RectTransform _rectTransform;
@@ -13,17 +18,34 @@ namespace AirplaneAdventure.Gameplay
         private float _screenBottom;
         private float _airplaneHalfHeight;
 
+        private int _health = 3;
+        private bool _isImmune;
+        
+        private Collider2D _collider;
+        private Image _image;
+
+        public static event Action<int> OnScoreChanged;
+        public static event Action<int> OnHealthChanged;
+        public static event Action OnGameOver;
+
+        public float Score { get; private set; }
+
         private void Awake()
         {
             if (_rectTransform == null)
                 _rectTransform = GetComponent<RectTransform>();
+            
+            _image = GetComponent<Image>();
 
-            Canvas canvas = GetComponentInParent<Canvas>();
-            float canvasHeight = canvas.GetComponent<RectTransform>().rect.height;
+            var canvas = GetComponentInParent<Canvas>();
+            var canvasHeight = canvas.GetComponent<RectTransform>().rect.height;
 
             _airplaneHalfHeight = _rectTransform.rect.height / 2;
             _screenTop = canvasHeight / 2f - _airplaneHalfHeight;
             _screenBottom = -canvasHeight / 2f + _airplaneHalfHeight;
+
+            _collider = GetComponent<Collider2D>();
+            Score = 0;
         }
 
         private void Update()
@@ -32,9 +54,16 @@ namespace AirplaneAdventure.Gameplay
             {
                 Flap();
             }
-
-            ApplyGravity();
+            else
+            {
+                ApplyGravity();
+            }
+            
             ClampPosition();
+
+            Score += Time.deltaTime;
+
+            OnScoreChanged?.Invoke((int)Score);
         }
 
         private void Flap()
@@ -45,24 +74,67 @@ namespace AirplaneAdventure.Gameplay
         private void ApplyGravity()
         {
             _velocity.y -= _gravity * Time.deltaTime;
-            
-            if (_velocity.y < -_gravity)
-                _velocity.y = -_gravity;
-            
+            _velocity.y = Mathf.Max(_velocity.y, -_gravity);
+
             _rectTransform.anchoredPosition += _velocity * Time.deltaTime * Vector2.up;
         }
 
         private void ClampPosition()
         {
-            Vector2 position = _rectTransform.anchoredPosition;
+            var position = _rectTransform.anchoredPosition;
             position.y = Mathf.Clamp(position.y, _screenBottom, _screenTop);
             _rectTransform.anchoredPosition = position;
         }
-        
-        private void OnCollisionEnter2D(Collision2D collision)
+
+        private void OnCollisionEnter2D(Collision2D _)
         {
-            Debug.Log("Game Over!");
-            Time.timeScale = 0;
+            if (_isImmune) return;
+
+            _health--;
+            OnHealthChanged?.Invoke(_health);
+
+            if (_health <= 0)
+            {
+                _obstacles.SetActive(false);
+                gameObject.SetActive(false);
+                OnGameOver?.Invoke();
+            }
+            else
+            {
+                StartCoroutine(ActivateImmunity());
+            }
+        }
+
+        private IEnumerator ActivateImmunity()
+        {
+            _isImmune = true;
+            _collider.enabled = false;
+
+            var blinkInterval = 0.2f;
+            var duration = 2f;
+            var elapsedTime = 0f;
+
+            while (elapsedTime < duration)
+            {
+                _image.enabled = !_image.enabled;
+                yield return new WaitForSeconds(blinkInterval);
+                elapsedTime += blinkInterval;
+            }
+
+            _image.enabled = true;
+            _collider.enabled = true;
+            _isImmune = false;
+        }
+
+        private void OnGUI()
+        {
+            GUI.color = Color.red;
+            var v = _velocity.y;
+            
+            GUI.Label(new Rect(0, 0, 1000, 50), $"Velocity: {v}", new GUIStyle(GUI.skin.label)
+            {
+                fontSize = 54
+            });
         }
     }
 }
