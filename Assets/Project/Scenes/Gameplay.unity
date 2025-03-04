@@ -292,6 +292,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 973366475}
+  - {fileID: 543207156}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -372,8 +373,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _obstaclePrefabs:
+  - {fileID: 8487571380837826234, guid: 90e30939fd1cc2c46bd370a48e0261f9, type: 3}
+  - {fileID: 8487571380837826234, guid: d7445d6f1e1cc7d48a45780785d1487c, type: 3}
   - {fileID: 8487571380837826234, guid: 8a772044020ad044082b80ee460d9463, type: 3}
   - {fileID: 8487571380837826234, guid: 388e077d8ffcddb46b11ffd730920109, type: 3}
+  - {fileID: 8487571380837826234, guid: cd7c8127e1407f549b421be2b0bc4856, type: 3}
+  - {fileID: 8487571380837826234, guid: cf9a932307228d0408e5b2db47964526, type: 3}
+  - {fileID: 8487571380837826234, guid: fd94f1735e146e0479732ff834c89804, type: 3}
   _parent: {fileID: 896446570}
   _poolSize: 10
   _spawnInterval: 6
@@ -471,6 +477,41 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &543207155
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 543207156}
+  m_Layer: 5
+  m_Name: UI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &543207156
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543207155}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 308386374}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &543592888
 GameObject:
   m_ObjectHideFlags: 0
@@ -768,5 +809,5 @@ SceneRoots:
   m_Roots:
   - {fileID: 543592891}
   - {fileID: 519420032}
-  - {fileID: 308386374}
   - {fileID: 407143535}
+  - {fileID: 308386374}
