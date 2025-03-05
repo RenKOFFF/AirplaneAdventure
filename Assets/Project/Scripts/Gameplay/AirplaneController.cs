@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using AirplaneAdventure.Gameplay.Saves;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,9 @@ namespace AirplaneAdventure.Gameplay
         [SerializeField] private float _tapForce = 400f;
         [SerializeField] private float _gravity = 800f;
         [SerializeField] private RectTransform _rectTransform;
+        [SerializeField] private AudioSource _audioSource;
+        
+        [SerializeField] private Sprite[] _skins;
 
         private Vector2 _velocity;
         private float _screenTop;
@@ -46,6 +50,14 @@ namespace AirplaneAdventure.Gameplay
 
             _collider = GetComponent<Collider2D>();
             Score = 0;
+
+            SaveManager.MainData.SkinChanged += ChangeSkin;
+            ChangeSkin();
+        }
+
+        private void OnDestroy()
+        {
+            SaveManager.MainData.SkinChanged -= ChangeSkin;
         }
 
         private void Update()
@@ -91,6 +103,7 @@ namespace AirplaneAdventure.Gameplay
             if (_isImmune) return;
 
             _health--;
+            _audioSource.Play();
             OnHealthChanged?.Invoke(_health);
 
             if (_health <= 0)
@@ -126,15 +139,9 @@ namespace AirplaneAdventure.Gameplay
             _isImmune = false;
         }
 
-        private void OnGUI()
+        private void ChangeSkin()
         {
-            GUI.color = Color.red;
-            var v = _velocity.y;
-            
-            GUI.Label(new Rect(0, 0, 1000, 50), $"Velocity: {v}", new GUIStyle(GUI.skin.label)
-            {
-                fontSize = 54
-            });
+            _image.sprite = _skins[SaveManager.MainData.Skin];
         }
     }
 }

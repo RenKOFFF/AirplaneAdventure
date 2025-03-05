@@ -1,5 +1,6 @@
 using System;
 using AirplaneAdventure.Gameplay;
+using AirplaneAdventure.UI.Settings;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +12,7 @@ namespace AirplaneAdventure.UI
         [SerializeField] private TMP_Text _scoreText;
         [SerializeField] private GameOverPanel _gameOverPanel;
         [SerializeField] private Slider _hp;
+        
         [SerializeField] private Button _pauseButton;
         [SerializeField] private PausePanel _pausePanel;
 

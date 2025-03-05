@@ -1,5 +1,6 @@
 using System;
 using AirplaneAdventure.Gameplay;
+using AirplaneAdventure.Gameplay.Saves;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -20,7 +21,10 @@ namespace AirplaneAdventure.UI
         private void OnEnable()
         {
             var airplaneController = FindObjectOfType<AirplaneController>(true);
-            _scoreText.text = ((int)airplaneController.Score).ToString();
+            var score = (int)airplaneController.Score;
+            
+            _scoreText.text = score.ToString();
+            SaveManager.MainData.Score = score;
         }
 
         private void RestartGame()
