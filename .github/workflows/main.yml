@@ -2,7 +2,7 @@ name: buildings
 on: workflow_dispatch
 jobs: 
   firstjob:  
-    runson: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Print
         run: echo "Building started"
